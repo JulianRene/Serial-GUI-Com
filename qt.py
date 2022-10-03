@@ -1,11 +1,14 @@
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 
-import sys, serial, serial.tools.list_ports, warnings
-from PyQt5.QtCore import QSize, QRect, QObject, pyqtSignal, QThread, pyqtSignal, pyqtSlot
+import sys, os, serial, serial.tools.list_ports, warnings
+from PyQt5.QtCore import * #QSize, QRect, QObject, pyqtSignal, QThread, pyqtSignal, pyqtSlot
 import time
-from PyQt5.QtWidgets import QApplication, QComboBox, QDialog, QMainWindow, QWidget, QLabel, QTextEdit, QListWidget, \
-    QListView
+from PyQt5.QtWidgets import * #QApplication, QComboBox, QDialog, QMainWindow, QWidget, QLabel, QTextEdit, QListWidget, \
+    #QListView
+#from PyQt5.QtGui import *
 from PyQt5.uic import loadUi
+
+#TODO Line to update GUI: pyuic5 -o Tools_Main.py Tools_Main.ui
 
 #Port Detection START
 ports = [
@@ -54,6 +57,7 @@ class qt(QMainWindow):
         self.worker = None
         self.pushButton.clicked.connect(self.start_loop)
         self.label_11.setText(ports[0])
+        self.pushBtnClicked = False
 
     def loop_finished(self):
         print('Loop Finished')
@@ -74,7 +78,6 @@ class qt(QMainWindow):
         self.worker.finished.connect(self.thread.quit)         # tell the thread it's time to stop running
         self.worker.finished.connect(self.worker.deleteLater)  # have worker mark itself for deletion
         self.thread.finished.connect(self.thread.deleteLater)  # have thread mark itself for deletion
-
         self.thread.start()
 
     def stop_loop(self):
@@ -111,12 +114,98 @@ class qt(QMainWindow):
         self.label_5.setStyleSheet('color: green')
         x = 1
         self.textEdit_3.setText(":")
+        mytext = "\n"      #Send first enter
+        ser.write(mytext.encode())
 
     def on_pushButton_3_clicked(self):
         # Send data from serial port:
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
         mytext = self.textEdit_2.toPlainText() + "\n"
         print(mytext.encode())
         ser.write(mytext.encode())
+        self.pushBtnClicked = True
+
+    def on_pb_Free_clicked(self):
+        # Send Freeze command from serial port:
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+        mytext = "cine freeze\n"
+        print(mytext.encode())
+        ser.write(mytext.encode())
+        self.pushBtnClicked = True
+
+    def on_pb_Unfre_clicked(self):
+        # Send Unfreeze command from serial port:
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+        mytext = "cine unfreeze\n"
+        print(mytext.encode())
+        ser.write(mytext.encode())
+        self.pushBtnClicked = True
+
+    def on_pb_List_clicked(self):
+        # Send List dir command from serial port:
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+        mytext = "io dir " + self.cb_Drive.currentText() + "\n"
+        print(mytext.encode())
+        ser.write(mytext.encode())
+        self.pushBtnClicked = True
+
+    def on_pb_Brow_clicked(self):
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+        # select folder with files to rename
+        folder = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
+        if not folder:
+            return
+
+        self.txt_Dir.setText(folder)
+        self.pushBtnClicked = True
+
+    def on_pb_Rena_clicked(self):
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+
+        # go across files and rename those
+        folder = self.txt_Dir.toPlainText()
+        for count, filename in enumerate(os.listdir(folder)):
+            if count < 10:
+                numb = '0' + str(count)
+            else:
+                numb = str(count)
+
+            dst = self.txtFileName.text() + numb + ".mov"
+            src = folder + '/' + filename
+            dst = folder + '/' + dst
+
+            os.rename(src, dst)
+
+        self.pushBtnClicked = True
+
+    def on_pb_Rena_clicked(self):
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+
+        count = self.sb_Num.Value
+        if count < 10:
+            numb = '0' + str(count)
+        else:
+            numb = str(count)
+
+        mytext = "cine store j:" + self.txtIQfile.toPlainText() + numb + ".iq 2363 2442 2 1\n"
+        print(mytext.encode())
+        ser.write(mytext.encode())
+        self.pushBtnClicked = True
+
 
 def run():
     app = QApplication(sys.argv)

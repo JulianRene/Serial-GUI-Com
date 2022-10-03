@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>939</width>
-    <height>522</height>
+    <width>1011</width>
+    <height>633</height>
    </rect>
   </property>
   <property name="cursor">
@@ -26,207 +26,19 @@
    <string>Serial Communication Program Mehmet Cagri Aksoy 2018-2022</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="formLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>10</y>
-      <width>191</width>
-      <height>171</height>
-     </rect>
-    </property>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>PORT Name:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Baud Rate:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="comboBox_1">
-       <item>
-        <property name="text">
-         <string>Select...</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>1200</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2400</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4800</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>9600</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>19200</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>38400</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>57600</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>115200</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Length (B):</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="comboBox_2">
-       <item>
-        <property name="text">
-         <string>Select...</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>8</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>16</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>32</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>64</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>-</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="text">
-        <string>Save</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QComboBox" name="comboBox">
-       <item>
-        <property name="text">
-         <string>Select...</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>6</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>8</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>10</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>15</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>20</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>Timelimit</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>731</width>
-      <height>411</height>
+      <x>220</x>
+      <y>90</y>
+      <width>781</width>
+      <height>541</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QTextEdit" name="textEdit_3"/>
+     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
@@ -234,16 +46,13 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QTextEdit" name="textEdit_3"/>
-     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="formLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>390</y>
+      <x>9</x>
+      <y>230</y>
       <width>171</width>
       <height>21</height>
      </rect>
@@ -271,13 +80,16 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>180</y>
+      <x>9</x>
+      <y>20</y>
       <width>197</width>
       <height>203</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
      <item>
       <widget class="QLabel" name="label_10">
        <property name="text">
@@ -318,15 +130,22 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="textEdit"/>
+      <widget class="QTextEdit" name="textEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>3</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>430</y>
+      <x>880</x>
+      <y>50</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -338,70 +157,308 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>405</y>
-      <width>451</width>
+      <x>640</x>
+      <y>10</y>
+      <width>71</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Send DATA:</string>
+     <string>Send Cmd:</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="textEdit_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>430</y>
-      <width>501</width>
-      <height>41</height>
+      <x>700</x>
+      <y>10</y>
+      <width>211</width>
+      <height>31</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>430</y>
-      <width>121</width>
-      <height>41</height>
+      <x>910</x>
+      <y>10</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>SEND</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>20</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IQ File Name:</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="txtIQfile">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>10</y>
+      <width>331</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_List">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>260</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>List Drive</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cb_Drive">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>260</y>
+      <width>41</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
+    <property name="currentText">
+     <string>J:</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>J:</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>F:</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>G:</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="pb_Unfre">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>290</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cine Unfreeze</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_Free">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cine Freeze</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="ch_Store">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>330</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Store Data</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="ch_Copy">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>330</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy Data</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>0</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>PORT Name:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>0</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>260</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Drive:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_StCo">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>410</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Store/Copy</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="sb_Num">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>351</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>360</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>File Number:</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="ck_Auto">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>390</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Auto increment</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="txt_Dir">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>50</y>
+      <width>331</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_Brow">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>50</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Browse...</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>50</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Directory:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_Rena">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>50</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rename Files</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>939</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuAna_Ekran">
-    <property name="title">
-     <string>Main Screen</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menu_leti_im">
-    <property name="title">
-     <string>About</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuYard_m">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionHelp"/>
-   </widget>
-   <addaction name="menuAna_Ekran"/>
-   <addaction name="menu_leti_im"/>
-   <addaction name="menuYard_m"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAna_Ekran">
    <property name="text">
     <string>Ana Ekran</string>
@@ -413,6 +470,28 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>txtIQfile</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pb_StCo</tabstop>
+  <tabstop>textEdit</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>textEdit_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>textEdit_3</tabstop>
+  <tabstop>pb_List</tabstop>
+  <tabstop>cb_Drive</tabstop>
+  <tabstop>pb_Unfre</tabstop>
+  <tabstop>pb_Free</tabstop>
+  <tabstop>ch_Store</tabstop>
+  <tabstop>ch_Copy</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>sb_Num</tabstop>
+  <tabstop>ck_Auto</tabstop>
+  <tabstop>txt_Dir</tabstop>
+  <tabstop>pb_Brow</tabstop>
+  <tabstop>pb_Rena</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
