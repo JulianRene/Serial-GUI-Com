@@ -20,7 +20,7 @@ if not ports:
 if len(ports) > 1:
     warnings.warn('Connected....')
 
-ser = serial.Serial(ports[0],9600)
+ser = serial.Serial(ports[0],115200)
 #Port Detection END
 
 # MULTI-THREADING
@@ -114,7 +114,7 @@ class qt(QMainWindow):
 
     def on_pushButton_3_clicked(self):
         # Send data from serial port:
-        mytext = self.textEdit_2.toPlainText()
+        mytext = self.textEdit_2.toPlainText() + "\n"
         print(mytext.encode())
         ser.write(mytext.encode())
 
