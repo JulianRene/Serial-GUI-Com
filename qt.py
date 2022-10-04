@@ -1,14 +1,10 @@
 __author__ = 'Mehmet Cagri Aksoy - github.com/mcagriaksoy'
 
 import sys, os, serial, serial.tools.list_ports, warnings
-from PyQt5.QtCore import * #QSize, QRect, QObject, pyqtSignal, QThread, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import *
 import time
-from PyQt5.QtWidgets import * #QApplication, QComboBox, QDialog, QMainWindow, QWidget, QLabel, QTextEdit, QListWidget, \
-    #QListView
-#from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
-
-#TODO Line to update GUI: pyuic5 -o Tools_Main.py Tools_Main.ui
 
 #Port Detection START
 ports = [
@@ -17,13 +13,13 @@ ports = [
     if 'USB' in p.description
 ]
 
-if not ports:
-    raise IOError("There is no device exist on serial port!")
+#if not ports:
+    #raise IOError("There is no device exist on serial port!")
 
-if len(ports) > 1:
-    warnings.warn('Connected....')
+#if len(ports) > 1:
+    #warnings.warn('Connected....')
 
-ser = serial.Serial(ports[0],115200)
+ser = serial.Serial('COM1', 115200, timeout=1)#(ports[0],115200)
 #Port Detection END
 
 # MULTI-THREADING
@@ -56,7 +52,7 @@ class qt(QMainWindow):
         self.thread = None
         self.worker = None
         self.pushButton.clicked.connect(self.start_loop)
-        self.label_11.setText(ports[0])
+        #self.label_11.setText(ports[0])
         self.pushBtnClicked = False
 
     def loop_finished(self):
@@ -87,16 +83,9 @@ class qt(QMainWindow):
         self.textEdit_3.append("{}".format(i))
         print(i)
 
-    # Save the settings
-    def on_pushButton_4_clicked(self):
-        if self.x != 0:
-            self.textEdit.setText('Settings Saved!')
-        else:
-            self.textEdit.setText('Please enter port and speed!')
-
     # TXT Save
     def on_pushButton_5_clicked(self):
-        with open('Sonuc.txt', 'w') as f:
+        with open('Log.txt', 'w') as f:
             my_text = self.textEdit_3.toPlainText()
             f.write(my_text)
 
@@ -104,7 +93,7 @@ class qt(QMainWindow):
         self.textEdit.setText('Stopped! Please click CONNECT...')
 
     def on_pushButton_clicked(self):
-
+        #Start the connection
         self.completed = 0
         while self.completed < 100:
             self.completed += 0.001
@@ -174,6 +163,15 @@ class qt(QMainWindow):
             self.pushBtnClicked = False
             return
 
+        if self.txtIQfile.toPlainText() == "" or self.txt_Dir.toPlainText() == "":
+            msgBox = QMessageBox()
+            msgBox.setWindowTitle("No IQ File Name!")
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("There is not an IQ File Name or Directory. Please specify the File Name and Directory first.")
+            msgBox.exec()
+            self.pushBtnClicked = True
+            return
+
         # go across files and rename those
         folder = self.txt_Dir.toPlainText()
         for count, filename in enumerate(os.listdir(folder)):
@@ -182,7 +180,7 @@ class qt(QMainWindow):
             else:
                 numb = str(count)
 
-            dst = self.txtFileName.text() + numb + ".mov"
+            dst = self.txtIQfile.toPlainText() + numb + ".mov"
             src = folder + '/' + filename
             dst = folder + '/' + dst
 
@@ -190,26 +188,46 @@ class qt(QMainWindow):
 
         self.pushBtnClicked = True
 
-    def on_pb_Rena_clicked(self):
+    def on_pb_StCo_clicked(self):
         if self.pushBtnClicked:
             self.pushBtnClicked = False
             return
 
-        count = self.sb_Num.Value
+        if self.txtIQfile.toPlainText() == "":
+            msgBox = QMessageBox()
+            msgBox.setWindowTitle("No IQ File Name!")
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("There is not an IQ File Name. Please specify the File Name first.")
+            msgBox.exec()
+            self.pushBtnClicked = True
+            return
+
+        count = self.sb_Num.value()
         if count < 10:
             numb = '0' + str(count)
         else:
             numb = str(count)
 
-        mytext = "cine store j:" + self.txtIQfile.toPlainText() + numb + ".iq 2363 2442 2 1\n"
-        print(mytext.encode())
-        ser.write(mytext.encode())
+        #check for store command
+        if self.ch_Store.isChecked():
+            mytext = "cine store j:" + self.txtIQfile.toPlainText() + numb + ".iq 2363 2442 2 1\n"
+            ser.write(mytext.encode())
+
+        # check for copy command
+        if self.ch_Copy.isChecked():
+            mytext = "io copy j:" + self.txtIQfile.toPlainText() + numb + ".iq " + self.cb_Drive.currentText() + "\n"
+            ser.write(mytext.encode())
+
+        #Check if auto-increment index
+        if self.ck_Auto.isChecked():
+            self.sb_Num.setValue(count+1)
+
         self.pushBtnClicked = True
 
 
 def run():
     app = QApplication(sys.argv)
-    widget = qt()
+    widget = qt()           #TOFIX: There is this line that maybe is calling twice objects
     widget.show()
     sys.exit(app.exec_())
 
