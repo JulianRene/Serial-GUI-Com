@@ -13,13 +13,13 @@ ports = [
     if 'USB' in p.description
 ]
 
-#if not ports:
-    #raise IOError("There is no device exist on serial port!")
+if not ports:
+    raise IOError("There is no device exist on serial port!")
 
-#if len(ports) > 1:
-    #warnings.warn('Connected....')
+if len(ports) > 1:
+    warnings.warn('Connected....')
 
-ser = serial.Serial('COM1', 115200, timeout=1)#(ports[0],115200)
+ser = serial.Serial('COM2', 115200, timeout=1)  #(ports[0], 115200)    #('COM1', 115200, timeout=1)
 #Port Detection END
 
 # MULTI-THREADING
@@ -52,7 +52,7 @@ class qt(QMainWindow):
         self.thread = None
         self.worker = None
         self.pushButton.clicked.connect(self.start_loop)
-        #self.label_11.setText(ports[0])
+        self.label_11.setText(ports[0])
         self.pushBtnClicked = False
 
     def loop_finished(self):
@@ -80,14 +80,18 @@ class qt(QMainWindow):
         self.worker.working = False
 
     def onIntReady(self, i):
-        self.textEdit_3.append("{}".format(i))
-        print(i)
+        if i != '':
+            self.textEdit_3.append("{}".format(i))
+            print(i)
 
     # TXT Save
     def on_pushButton_5_clicked(self):
         with open('Log.txt', 'w') as f:
             my_text = self.textEdit_3.toPlainText()
             f.write(my_text)
+
+        #Put confirmation button
+        #TODO Put a clear screen button and try to be always at the end of the screen
 
     def on_pushButton_2_clicked(self):
         self.textEdit.setText('Stopped! Please click CONNECT...')
