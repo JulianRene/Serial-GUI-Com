@@ -6,7 +6,7 @@ import time
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 
-#Port Detection START
+# Port Detection START
 ports = [
     p.device
     for p in serial.tools.list_ports.comports()
@@ -19,9 +19,8 @@ if not ports:
 if len(ports) > 1:
     warnings.warn('Connected....')
 
-ser = serial.Serial('COM2', 115200, timeout=1)  #(ports[0], 115200)    #('COM1', 115200, timeout=1)
-#Port Detection END
-
+ser = serial.Serial('COM2', 115200, timeout=1) #(ports[0], 115200)    #('COM1', 115200, timeout=1)
+# Port Detection END
 # MULTI-THREADING
 
 class Worker(QObject):
@@ -52,6 +51,7 @@ class qt(QMainWindow):
         self.thread = None
         self.worker = None
         self.pushButton.clicked.connect(self.start_loop)
+        #ser = None
         self.label_11.setText(ports[0])
         self.pushBtnClicked = False
 
@@ -59,6 +59,8 @@ class qt(QMainWindow):
         print('Loop Finished')
 
     def start_loop(self):
+
+        self.label_11.setText(ports[0])
 
         self.worker = Worker()   # a new worker to perform those tasks
         self.thread = QThread()  # a new thread to run our background tasks in
