@@ -6,6 +6,9 @@ import time
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 
+#GUI interactions
+import winsound
+
 # Port Detection START
 ports = [
     p.device
@@ -163,6 +166,7 @@ class qt(QMainWindow):
 
         self.txt_Dir.setText(folder)
         self.pushBtnClicked = True
+        winsound.Beep(1740, 800)
 
     def on_pb_Rena_clicked(self):
         if self.pushBtnClicked:
