@@ -9,8 +9,6 @@ from PyQt5.uic import loadUi
 #GUI interactions
 import winsound
 
-ser = []        #Variable for serial port
-
 # MULTI-THREADING
 
 class Worker(QObject):
@@ -24,7 +22,11 @@ class Worker(QObject):
 
     def work(self):
         while self.working:
-            line = ser.readline().decode('utf-8')
+            if ser.isOpen():
+                line = ser.readline().decode('utf-8')
+            else:
+                line = ''
+
             if line != '':
                 print(line)
                 time.sleep(0.1)
@@ -42,8 +44,6 @@ class qt(QMainWindow):
         self.thread = None
         self.worker = None
         self.pushButton.clicked.connect(self.start_loop)
-        #self.ser = None
-        #self.label_11.setText(ports[0])
         self.pushBtnClicked = False
         self.CopyFlag = 0
 
@@ -51,6 +51,22 @@ class qt(QMainWindow):
         print('Loop Finished')
 
     def start_loop(self):
+        #Verify the correct COM Port
+        try:
+            mytext = "\n"  # Send first enter
+            global ser
+            ser = serial.Serial(self.cb_Port.currentText(), 115200, timeout=1)  # (ports[0], 115200)    #('COM1', 115200, timeout=1)
+            ser.write(mytext.encode())
+        except:
+            msgBox = QMessageBox()
+            msgBox.setWindowTitle("COM Port Error!")
+            msgBox.setIcon(QMessageBox.Warning)
+            msgBox.setText("Selected COM port does not exist. Please verify the COM port Number.")
+            msgBox.exec()
+            self.label_5.setText("Not Connected")
+            self.label_5.setStyleSheet('color: red')
+            return
+
         self.worker = Worker()   # a new worker to perform those tasks
         self.thread = QThread()  # a new thread to run our background tasks in
         self.worker.moveToThread(self.thread)  # move the worker into the thread, do this first before connecting the signals
@@ -68,10 +84,10 @@ class qt(QMainWindow):
         self.thread.start()
 
     def stop_loop(self):
-        ser.close()
+        self.worker.working = False
         self.label_5.setText("Not Connected")
         self.label_5.setStyleSheet('color: red')
-        self.worker.working = False
+        ser.close()
 
     def onIntReady(self, i):
         if i != '':
@@ -99,7 +115,11 @@ class qt(QMainWindow):
 
                     #Check for final file copy
                     if count == self.sb_NumFin.value():
+                        self.ck_AuSC.setCheckState(False)
+                        self.sb_NumFin.setEnabled(False)
                         self.CopyFlag = 0
+                        mytext = "\n"       #Clear buffer
+                        ser.write(mytext.encode())
                     else:
                         self.sb_Num.setValue(count + 1)
 
@@ -125,8 +145,16 @@ class qt(QMainWindow):
         self.textEdit.setText('Stopped! Please click CONNECT...')
 
     def on_pb_Clr_clicked(self):
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+
         #Clear serial screen
         self.textEdit_3.setText('')
+        mytext = "\n"  # Clear buffer
+        ser.write(mytext.encode())
+
+        self.pushBtnClicked = True
 
     def on_pushButton_clicked(self):
         if self.pushBtnClicked:
@@ -140,31 +168,26 @@ class qt(QMainWindow):
             if 'USB' in p.description
         ]
 
-        #if not ports:
-         #   raise IOError("There is no device exist on serial port!")
+        if not ports:
+            ports = ['NONE']
 
-        if len(ports) > 1:
-            warnings.warn('Connected....')
-
+        self.label_11.setText(ports[0])
         # Port Detection END
 
-        #self.label_11.setText(ports[0])
+        if ports[0] != 'NONE':
+            #Start the progress bar
+            self.completed = 0
+            while self.completed < 100:
+                self.completed += 0.001
+                self.progressBar.setValue(self.completed)
+            self.textEdit.setText('Data Gathering...')
+            self.label_5.setText("CONNECTED!")
+            self.label_5.setStyleSheet('color: green')
+            x = 1
+            self.textEdit_3.setText(":")
 
-        #Start the connection
-        self.completed = 0
-        while self.completed < 100:
-            self.completed += 0.001
-            self.progressBar.setValue(self.completed)
-        self.textEdit.setText('Data Gathering...')
-        self.label_5.setText("CONNECTED!")
-        self.label_5.setStyleSheet('color: green')
-        x = 1
-        self.textEdit_3.setText(":")
-        mytext = "\n"      #Send first enter
-        global ser
-        ser = serial.Serial('COM2', 115200, timeout=1)  # (ports[0], 115200)    #('COM1', 115200, timeout=1)
-        ser.write(mytext.encode())
         self.pushBtnClicked = True
+
 
     def on_pushButton_3_clicked(self):
         # Send data from serial port:

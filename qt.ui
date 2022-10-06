@@ -79,7 +79,7 @@
       <x>9</x>
       <y>20</y>
       <width>197</width>
-      <height>203</height>
+      <height>201</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -88,8 +88,67 @@
      </property>
      <item>
       <widget class="QLabel" name="label_10">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Connection Options:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Select Port:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cb_Port">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="currentText">
+          <string>COM1</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>COM1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>COM2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>COM3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>COM4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>COM5</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Connection Percentage Status:</string>
        </property>
       </widget>
      </item>
@@ -110,13 +169,6 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>Connection Percentage Status:</string>
-       </property>
-      </widget>
      </item>
      <item>
       <widget class="QProgressBar" name="progressBar">
