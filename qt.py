@@ -9,21 +9,8 @@ from PyQt5.uic import loadUi
 #GUI interactions
 import winsound
 
-# Port Detection START
-ports = [
-    p.device
-    for p in serial.tools.list_ports.comports()
-    if 'USB' in p.description
-]
+ser = []        #Variable for serial port
 
-if not ports:
-    raise IOError("There is no device exist on serial port!")
-
-if len(ports) > 1:
-    warnings.warn('Connected....')
-
-ser = serial.Serial('COM2', 115200, timeout=1) #(ports[0], 115200)    #('COM1', 115200, timeout=1)
-# Port Detection END
 # MULTI-THREADING
 
 class Worker(QObject):
@@ -38,9 +25,10 @@ class Worker(QObject):
     def work(self):
         while self.working:
             line = ser.readline().decode('utf-8')
-            print(line)
-            time.sleep(0.1)
-            self.intReady.emit(line)
+            if line != '':
+                print(line)
+                time.sleep(0.1)
+                self.intReady.emit(line)
 
         self.finished.emit()
 
@@ -54,17 +42,15 @@ class qt(QMainWindow):
         self.thread = None
         self.worker = None
         self.pushButton.clicked.connect(self.start_loop)
-        #ser = None
-        self.label_11.setText(ports[0])
+        #self.ser = None
+        #self.label_11.setText(ports[0])
         self.pushBtnClicked = False
+        self.CopyFlag = 0
 
     def loop_finished(self):
         print('Loop Finished')
 
     def start_loop(self):
-
-        self.label_11.setText(ports[0])
-
         self.worker = Worker()   # a new worker to perform those tasks
         self.thread = QThread()  # a new thread to run our background tasks in
         self.worker.moveToThread(self.thread)  # move the worker into the thread, do this first before connecting the signals
@@ -82,26 +68,88 @@ class qt(QMainWindow):
         self.thread.start()
 
     def stop_loop(self):
+        ser.close()
+        self.label_5.setText("Not Connected")
+        self.label_5.setStyleSheet('color: red')
         self.worker.working = False
 
     def onIntReady(self, i):
         if i != '':
             self.textEdit_3.append("{}".format(i))
             print(i)
+            if i.find('CINE Frames') != -1:
+                #IQ file stored make beep
+                winsound.Beep(1740, 800)
+
+            if self.ck_AuSC.isChecked():
+                #Auto Copy files
+                if i.find('io copy j:') != -1:
+                    #First autocopy condition
+                    self.CopyFlag = 1
+
+                if i.find('nvdbg>') != -1 and self.CopyFlag == 1:
+                    count = self.sb_Num.value()
+                    if count < 10:
+                        numb = '0' + str(count)
+                    else:
+                        numb = str(count)
+
+                    mytext = "io copy j:" + self.txtIQfile.toPlainText() + numb + ".iq " + self.cb_Drive.currentText() + "\n"
+                    ser.write(mytext.encode())
+
+                    #Check for final file copy
+                    if count == self.sb_NumFin.value():
+                        self.CopyFlag = 0
+                    else:
+                        self.sb_Num.setValue(count + 1)
+
 
     # TXT Save
     def on_pushButton_5_clicked(self):
-        with open('Log.txt', 'w') as f:
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+
+        fileName = QFileDialog.getSaveFileName(self, 'Select location to Log', "", '*.txt')
+        if not fileName:
+            return
+
+        with open(fileName[0], 'w') as f:
             my_text = self.textEdit_3.toPlainText()
             f.write(my_text)
 
-        #Put confirmation button
-        #TODO Put a clear screen button and try to be always at the end of the screen
+        self.textEdit_3.append("Log Saved in :" + fileName[0] + "\r\n")
+        self.pushBtnClicked = True
 
     def on_pushButton_2_clicked(self):
         self.textEdit.setText('Stopped! Please click CONNECT...')
 
+    def on_pb_Clr_clicked(self):
+        #Clear serial screen
+        self.textEdit_3.setText('')
+
     def on_pushButton_clicked(self):
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+
+        # Port Detection START
+        ports = [
+            p.device
+            for p in serial.tools.list_ports.comports()
+            if 'USB' in p.description
+        ]
+
+        #if not ports:
+         #   raise IOError("There is no device exist on serial port!")
+
+        if len(ports) > 1:
+            warnings.warn('Connected....')
+
+        # Port Detection END
+
+        #self.label_11.setText(ports[0])
+
         #Start the connection
         self.completed = 0
         while self.completed < 100:
@@ -113,7 +161,10 @@ class qt(QMainWindow):
         x = 1
         self.textEdit_3.setText(":")
         mytext = "\n"      #Send first enter
+        global ser
+        ser = serial.Serial('COM2', 115200, timeout=1)  # (ports[0], 115200)    #('COM1', 115200, timeout=1)
         ser.write(mytext.encode())
+        self.pushBtnClicked = True
 
     def on_pushButton_3_clicked(self):
         # Send data from serial port:
@@ -133,6 +184,19 @@ class qt(QMainWindow):
         mytext = "cine freeze\n"
         print(mytext.encode())
         ser.write(mytext.encode())
+        self.pushBtnClicked = True
+
+    def on_ck_AuSC_clicked(self):
+        # Auto Store/Copy active
+        if self.pushBtnClicked:
+            self.pushBtnClicked = False
+            return
+
+        if self.ck_AuSC.isChecked():
+            self.sb_NumFin.setEnabled(True)
+        else:
+            self.sb_NumFin.setEnabled(False)
+
         self.pushBtnClicked = True
 
     def on_pb_Unfre_clicked(self):
@@ -212,28 +276,38 @@ class qt(QMainWindow):
             self.pushBtnClicked = True
             return
 
-        count = self.sb_Num.value()
-        if count < 10:
-            numb = '0' + str(count)
-        else:
-            numb = str(count)
-
-        #check for store command
-        if self.ch_Store.isChecked():
-            mytext = "cine store j:" + self.txtIQfile.toPlainText() + numb + ".iq 2363 2442 2 1\n"
-            ser.write(mytext.encode())
-
-        # check for copy command
-        if self.ch_Copy.isChecked():
-            mytext = "io copy j:" + self.txtIQfile.toPlainText() + numb + ".iq " + self.cb_Drive.currentText() + "\n"
-            ser.write(mytext.encode())
-
-        #Check if auto-increment index
+        # Check if auto-increment index
         if self.ck_Auto.isChecked():
+            count = self.sb_Num.value()
+            if count < 10:
+                numb = '0' + str(count)
+            else:
+                numb = str(count)
+
+            #check for store command
+            if self.ch_Store.isChecked():
+                mytext = "cine store j:" + self.txtIQfile.toPlainText() + numb + ".iq 2363 2442 2 1\n"
+                ser.write(mytext.encode())
+
+            # check for copy command
+            if self.ch_Copy.isChecked():
+                mytext = "io copy j:" + self.txtIQfile.toPlainText() + numb + ".iq " + self.cb_Drive.currentText() + "\n"
+                ser.write(mytext.encode())
+
             self.sb_Num.setValue(count+1)
 
-        self.pushBtnClicked = True
+        else:
+            # check for store command
+            if self.ch_Store.isChecked():
+                mytext = "cine store j:" + self.txtIQfile.toPlainText() + ".iq 2363 2442 2 1\n"
+                ser.write(mytext.encode())
 
+            # check for copy command
+            if self.ch_Copy.isChecked():
+                mytext = "io copy j:" + self.txtIQfile.toPlainText() + ".iq " + self.cb_Drive.currentText() + "\n"
+                ser.write(mytext.encode())
+
+        self.pushBtnClicked = True
 
 def run():
     app = QApplication(sys.argv)

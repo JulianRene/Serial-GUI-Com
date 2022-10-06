@@ -35,7 +35,7 @@
       <height>521</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout" rowstretch="100,0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="100">
      <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
      </property>
@@ -147,7 +147,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Save as .txt</string>
+     <string>Save Log as .txt</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_9">
@@ -357,7 +357,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>410</y>
+      <y>450</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -369,9 +369,9 @@
    <widget class="QSpinBox" name="sb_Num">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>351</y>
-      <width>51</width>
+      <x>70</x>
+      <y>360</y>
+      <width>41</width>
       <height>31</height>
      </rect>
     </property>
@@ -380,7 +380,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>360</y>
+      <y>370</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -393,10 +393,16 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
+      <y>400</y>
       <width>111</width>
       <height>17</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string extracomment="Append and Autoincrement number to file"/>
+    </property>
+    <property name="toolTipDuration">
+     <number>2</number>
     </property>
     <property name="text">
      <string>Auto increment</string>
@@ -471,6 +477,67 @@
     </property>
     <property name="text">
      <string>Gathering / Sending Data (Rx/Tx)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_Clr">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>590</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear Screen</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="ck_AuSC">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>420</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string extracomment="Append and Autoincrement number to file"/>
+    </property>
+    <property name="toolTipDuration">
+     <number>-1</number>
+    </property>
+    <property name="text">
+     <string>Auto Store/Copy</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>370</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fin:</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="sb_NumFin">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>360</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
     </property>
    </widget>
   </widget>
